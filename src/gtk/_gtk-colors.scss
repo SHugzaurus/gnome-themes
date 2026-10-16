@@ -1,0 +1,16 @@
+// Monbothemesamer : couleurs des applications, dérivées de la palette du Shell
+@import "../_monbo-palette.scss";
+
+$gtk_accent_bg: $monbo_accent;
+$gtk_accent_fg: $monbo_accent_fg;
+$gtk_accent: lighten($monbo_accent, 8%);   // accent utilisé comme couleur de texte
+
+$gtk_fg: $monbo_fg;
+$gtk_window_bg: mix($monbo_panel, $monbo_surface, 40%);
+$gtk_view_bg: mix($monbo_panel, $monbo_surface, 70%);
+$gtk_headerbar_bg: $monbo_surface;
+$gtk_sidebar_bg: mix($monbo_panel, $monbo_surface, 55%);
+$gtk_popover_bg: lighten($monbo_surface, 3%);
+$gtk_dialog_bg: $monbo_surface;
+$gtk_card_bg: transparentize($monbo_fg, .94);
+$gtk_shade: rgba(0, 0, 0, .36);

@@ -1,0 +1,49 @@
+// Monbothemesamer : retouches appliquées par-dessus le thème GNOME
+// Importé en dernier, donc ces règles l'emportent sur celles d'origine.
+
+// Panneau flottant
+$monbo_panel_gap: 6px;
+
+#panel {
+  margin: $monbo_panel_gap ($monbo_panel_gap * 2) 0;
+  border-radius: $forced_circular_radius;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .35);
+
+  // en vue d'ensemble et sur l'écran de verrouillage, le panneau reste transparent
+  &:overview,
+  &.unlock-screen,
+  &.login-screen {
+    box-shadow: none;
+  }
+
+  // indicateurs de l'espace de travail actif en sauge
+  .panel-button#panelActivities .workspace-dot {
+    background-color: $monbo_accent;
+  }
+}
+
+// Dash to Panel impose sa propre géométrie au panneau : il ignore la marge
+// de #panel mais ajoute le padding de #panelBox à ses propres marges.
+// Il dessine aussi son propre fond (opacité, rayon) sur .dashtopanelPanel et
+// vide celui de #panel : l'ombre de #panel transparaîtrait en double couche.
+#panelBox.dashtopanel {
+  padding: $monbo_panel_gap ($monbo_panel_gap * 2);
+
+  #panel {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+// Dash légèrement teinté et bordé
+#dash .dash-background {
+  background-color: transparentize(mix($system_base_color, $monbo_accent, 88%), .08);
+  border: 1px solid transparentize($monbo_accent, .85);
+}
+
+// Popovers : fin liseré sauge
+.popup-menu-content,
+.candidate-popup-content {
+  border: 1px solid transparentize($monbo_accent, .88);
+}

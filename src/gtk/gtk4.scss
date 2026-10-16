@@ -1,0 +1,45 @@
+// Monbothemesamer : surcharge des couleurs libadwaita (~/.config/gtk-4.0/gtk.css)
+@import "gtk-colors";
+
+/* Monbothemesamer : fichier généré, modifier src/gtk/ puis relancer build.sh */
+
+// l'accent s'applique dans les deux modes
+:root {
+  --accent-bg-color: #{$gtk_accent_bg};
+  --accent-fg-color: #{$gtk_accent_fg};
+  --accent-color: #{darken($gtk_accent_bg, 25%)};
+}
+
+// les surfaces seulement en mode sombre, pour ne pas casser les applis forcées en clair
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-color: #{$gtk_accent};
+
+    --window-bg-color: #{$gtk_window_bg};
+    --window-fg-color: #{$gtk_fg};
+    --view-bg-color: #{$gtk_view_bg};
+    --view-fg-color: #{$gtk_fg};
+
+    --headerbar-bg-color: #{$gtk_headerbar_bg};
+    --headerbar-fg-color: #{$gtk_fg};
+    --headerbar-backdrop-color: #{$gtk_window_bg};
+
+    --sidebar-bg-color: #{$gtk_sidebar_bg};
+    --sidebar-fg-color: #{$gtk_fg};
+    --sidebar-backdrop-color: #{$gtk_window_bg};
+    --secondary-sidebar-bg-color: #{$gtk_window_bg};
+    --secondary-sidebar-fg-color: #{$gtk_fg};
+    --secondary-sidebar-backdrop-color: #{$gtk_window_bg};
+
+    --card-bg-color: #{$gtk_card_bg};
+    --card-fg-color: #{$gtk_fg};
+    --dialog-bg-color: #{$gtk_dialog_bg};
+    --dialog-fg-color: #{$gtk_fg};
+    --popover-bg-color: #{$gtk_popover_bg};
+    --popover-fg-color: #{$gtk_fg};
+    --thumbnail-bg-color: #{$gtk_popover_bg};
+    --thumbnail-fg-color: #{$gtk_fg};
+
+    --shade-color: #{$gtk_shade};
+  }
+}

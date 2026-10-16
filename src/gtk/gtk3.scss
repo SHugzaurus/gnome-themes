@@ -1,0 +1,31 @@
+// Monbothemesamer : couleurs pour GTK3 (~/.config/gtk-3.0/gtk.css)
+// Nécessite le thème adw-gtk3-dark, qui lit les mêmes noms de couleurs que libadwaita.
+@import "gtk-colors";
+
+/* Monbothemesamer : fichier généré, modifier src/gtk/ puis relancer build.sh */
+
+@define-color accent_bg_color #{$gtk_accent_bg};
+@define-color accent_fg_color #{$gtk_accent_fg};
+@define-color accent_color #{$gtk_accent};
+
+@define-color window_bg_color #{$gtk_window_bg};
+@define-color window_fg_color #{$gtk_fg};
+@define-color view_bg_color #{$gtk_view_bg};
+@define-color view_fg_color #{$gtk_fg};
+
+@define-color headerbar_bg_color #{$gtk_headerbar_bg};
+@define-color headerbar_fg_color #{$gtk_fg};
+@define-color headerbar_backdrop_color #{$gtk_window_bg};
+
+@define-color sidebar_bg_color #{$gtk_sidebar_bg};
+@define-color sidebar_fg_color #{$gtk_fg};
+@define-color sidebar_backdrop_color #{$gtk_window_bg};
+
+@define-color card_bg_color #{$gtk_card_bg};
+@define-color card_fg_color #{$gtk_fg};
+@define-color dialog_bg_color #{$gtk_dialog_bg};
+@define-color dialog_fg_color #{$gtk_fg};
+@define-color popover_bg_color #{$gtk_popover_bg};
+@define-color popover_fg_color #{$gtk_fg};
+
+@define-color shade_color #{$gtk_shade};
