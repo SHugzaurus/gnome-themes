@@ -30,6 +30,13 @@ python3 -I "$ROOT/src/sonora/make-theme.py" "$BUILD/sonora"
 
 # palette du terminal Ptyxis
 python3 -I "$ROOT/src/ptyxis/make-palette.py" "$BUILD/ptyxis/$NAME.palette"
+
+# icônes : Papirus-Dark dérivé vers la sauge (~20 s)
+if [[ -d /usr/share/icons/Papirus-Dark ]]; then
+  python3 -I "$ROOT/src/icons/make-icons.py" "$BUILD/icons"
+else
+  echo "Attention : Papirus absent, pas de thème d'icônes (sudo dnf install papirus-icon-theme)" >&2
+fi
 echo "Compilé dans : $BUILD"
 
 # installe un gtk.css sans écraser un fichier qui ne vient pas de ce thème
@@ -55,6 +62,21 @@ if [[ "${1:-}" == "--install" ]]; then
   install_gtk "$BUILD/gtk-4.0/gtk.css" "$CONFIG/gtk-4.0/gtk.css"
   install_gtk "$BUILD/gtk-3.0/gtk.css" "$CONFIG/gtk-3.0/gtk.css"
 
+  # GTK3 : seul adw-gtk3 lit les couleurs nommées de gtk-3.0/gtk.css
+  # (l'Adwaita intégré à GTK3 a ses couleurs en dur)
+  if [[ -d /usr/share/themes/adw-gtk3-dark || -d "$DEST/../adw-gtk3-dark" ]]; then
+    gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
+    echo "Thème GTK3 : adw-gtk3-dark"
+  else
+    echo "Attention : adw-gtk3 absent, les applis GTK3 ne prendront pas le thème." >&2
+    echo "  sudo dnf install adw-gtk3-theme && ./build.sh --install" >&2
+  fi
+  if command -v flatpak >/dev/null; then
+    flatpak override --user --filesystem=xdg-config/gtk-3.0:ro --filesystem=xdg-config/gtk-4.0:ro
+  fi
+  # les portails (sélecteur de fichiers) tournent en continu et ne relisent pas gtk.css
+  systemctl --user try-restart xdg-desktop-portal-gnome xdg-desktop-portal-gtk xdg-desktop-portal || true
+
   # Firefox : userContent.css dans le profil utilisé par défaut
   FF="$CONFIG/mozilla/firefox"
   PROFILE=$(awk -F= '/^\[Install/{i=1} i && /^Default=/{print $2; exit}' "$FF/profiles.ini" 2>/dev/null || true)
@@ -73,6 +95,15 @@ if [[ "${1:-}" == "--install" ]]; then
     for uuid in $(gsettings get org.gnome.Ptyxis profile-uuids | tr -d "[]',"); do
       gsettings set "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$uuid/" palette "$NAME"
     done
+  fi
+
+  # icônes
+  if [[ -d "$BUILD/icons/$NAME" ]]; then
+    ICONS="${XDG_DATA_HOME:-$HOME/.local/share}/icons/$NAME"
+    rm -rf "$ICONS"
+    cp -a "$BUILD/icons/$NAME" "$ICONS"
+    gsettings set org.gnome.desktop.interface icon-theme "$NAME"
+    echo "Installé : $ICONS"
   fi
 
   # Sonora (Flatpak) : relu à chaud, à choisir dans Réglages > Design
